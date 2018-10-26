@@ -1,0 +1,23 @@
+
+SQL> create or replace procedure query_emp
+  2  (v_eno in emp.empno%type, v_name out emp.name%type, v_sal out emp.sal %type
+)
+  3  is
+  4  begin
+  5  select ename, sal into v_name, v_sal
+  6  from emp where empno=v_eno;
+  7  exception
+  8  when no_data_found then
+  9  raise_application_error(-20001,'Employee does not exist, emp ded');
+ 10  end query_emp;
+ 11  /
+
+
+
+DECLARE
+amount NUMBER;
+BEGIN
+Procedurename(1000001, amount);
+dbms_output.put_line(amount);
+end;
+

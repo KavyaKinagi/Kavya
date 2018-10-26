@@ -1,0 +1,288 @@
+SQL> create table employees(employee_code number, Employee_name varchar2(15), D
+te_of_joining date, Employee_salary number,grade char(2) references salgrade(gr
+de));
+
+Table created.
+
+SQL> insert into salgrade values(A, 10000,20000);
+insert into salgrade values(A, 10000,20000)
+                            *
+ERROR at line 1:
+ORA-00984: column not allowed here
+
+
+SQL> insert into salgrade values("A",10000,20000);
+insert into salgrade values("A",10000,20000)
+                            *
+ERROR at line 1:
+ORA-00984: column not allowed here
+
+
+SQL> insert into salgrade values('A',10000,20000);
+
+1 row created.
+
+SQL> insert into salgrade values('B',20001,40000);
+
+1 row created.
+
+SQL> insert into salgrade values('C',40001,60000);
+
+1 row created.
+
+SQL> insert into employees table(101,'preetham',' 10-jan-2010');
+insert into employees table(101,'preetham',' 10-jan-2010')
+                      *
+ERROR at line 1:
+ORA-00926: missing VALUES keyword
+
+
+SQL> insert into employees values(101,'preetham',' 10-jan-2010');
+insert into employees values(101,'preetham',' 10-jan-2010')
+            *
+ERROR at line 1:
+ORA-00947: not enough values
+
+
+SQL> insert into employees values(101,'preetham',' 10-jan-2010',18000,'A');
+
+1 row created.
+
+SQL> insert into employees values(102,'Aakash',' 10-nov-2005',48000,'C');
+
+1 row created.
+
+SQL> insert into employees values(103,'Kishore',' 19-dec-2011',21000,'B');
+
+1 row created.
+
+SQL> insert into employees values(104,'Reena',' 23-jun-2006',42000,'C');
+
+1 row created.
+
+SQL> insert into employees values(105,'Kailash',' 05-feb-2004',46000,'C');
+
+1 row created.
+
+SQL> insert into employees values(106,'Sahana','18-nov-2003',52000,'C');
+
+1 row created.
+
+SQL> insert into employees values(107,'keerthana','25-jul-2006',27000,'B');
+
+1 row created.
+
+SQL> create sequence empCode_Seq
+  2  start with 108;
+
+Sequence created.
+
+SQL> select * from salgrade;
+
+GR     MINSAL     MAXSAL
+-- ---------- ----------
+A       10000      20000
+B       20001      40000
+C       40001      60000
+
+SQL> select * from employees;
+
+EMPLOYEE_CODE EMPLOYEE_NAME   DATE_OF_J EMPLOYEE_SALARY GR
+------------- --------------- --------- --------------- --
+          101 preetham        10-JAN-10           18000 A
+          102 Aakash          10-NOV-05           48000 C
+          103 Kishore         19-DEC-11           21000 B
+          104 Reena           23-JUN-06           42000 C
+          105 Kailash         05-FEB-04           46000 C
+          106 Sahana          18-NOV-03           52000 C
+          107 keerthana       25-JUL-06           27000 B
+
+7 rows selected.
+
+SQL> select count(empno) from employees where salary > (select avg(salary) from
+employees);
+select count(empno) from employees where salary > (select avg(salary) from empl
+yees)
+                                         *
+ERROR at line 1:
+ORA-00904: "SALARY": invalid identifier
+
+
+SQL> select count(emloyee_code) from employees where Employee_salary > (select
+vg(Employee_salary) from employees);
+select count(emloyee_code) from employees where Employee_salary > (select avg(E
+ployee_salary) from employees)
+             *
+ERROR at line 1:
+ORA-00904: "EMLOYEE_CODE": invalid identifier
+
+
+SQL> select count(employee_code) from employees where Employee_salary > (select
+avg(Employee_salary) from employees);
+
+COUNT(EMPLOYEE_CODE)
+--------------------
+                   4
+
+SQL> alter table employees
+  2  add col_name varchar2(40)
+  3  ;
+
+Table altered.
+
+SQL> select * from employees;
+
+EMPLOYEE_CODE EMPLOYEE_NAME   DATE_OF_J EMPLOYEE_SALARY GR
+------------- --------------- --------- --------------- --
+COL_NAME
+----------------------------------------
+          101 preetham        10-JAN-10           18000 A
+
+
+          102 Aakash          10-NOV-05           48000 C
+
+
+          103 Kishore         19-DEC-11           21000 B
+
+
+
+EMPLOYEE_CODE EMPLOYEE_NAME   DATE_OF_J EMPLOYEE_SALARY GR
+------------- --------------- --------- --------------- --
+COL_NAME
+----------------------------------------
+          104 Reena           23-JUN-06           42000 C
+
+
+          105 Kailash         05-FEB-04           46000 C
+
+
+          106 Sahana          18-NOV-03           52000 C
+
+
+
+EMPLOYEE_CODE EMPLOYEE_NAME   DATE_OF_J EMPLOYEE_SALARY GR
+------------- --------------- --------- --------------- --
+COL_NAME
+----------------------------------------
+          107 keerthana       25-JUL-06           27000 B
+
+
+
+7 rows selected.
+
+SQL> update employees set Employee_salary=Employee_salary*1.1
+  2  where datediff(date_of_joining,CURDATE());
+where datediff(date_of_joining,CURDATE())
+                                        *
+ERROR at line 2:
+ORA-00920: invalid relational operator
+
+
+SQL> update employees set Employee_salary=Employee_salary*1.1
+  2  where datediff(date_of_joining,CURDATE())
+  3  ;
+
+*
+ERROR at line 3:
+ORA-00920: invalid relational operator
+
+
+SQL> update employees set Employee_salary=Employee_salary*1.1
+  2  where (date_0f_joining-sysdate)>5;
+where (date_0f_joining-sysdate)>5
+       *
+ERROR at line 2:
+ORA-00904: "DATE_0F_JOINING": invalid identifier
+
+
+SQL> update employees set Employee_salary=Employee_salary*1.1
+  2  where (date_of_joining-sysdate)>5;
+
+0 rows updated.
+
+SQL> update employees set Employee_salary=Employee_salary*1.1
+  2  where datediff(date_of_joining,CURDATE()>5);
+where datediff(date_of_joining,CURDATE()>5)
+                                        *
+ERROR at line 2:
+ORA-00907: missing right parenthesis
+
+
+SQL> update employees set Employee_salary=Employee_salary*1.1
+  2  where datediff(date_of_joining,CURDATE()>5);
+where datediff(date_of_joining,CURDATE()>5)
+                                        *
+ERROR at line 2:
+ORA-00907: missing right parenthesis
+
+
+SQL> update employees set Employee_salary=Employee_salary*1.1
+  2  where datediff(date_of_joining,CURDATE() >5 );
+where datediff(date_of_joining,CURDATE() >5 )
+                                         *
+ERROR at line 2:
+ORA-00907: missing right parenthesis
+
+
+SQL> update employees set Employee_salary=Employee_salary*1.1
+  2  where (date_of_joining-sysdate)>5;
+
+0 rows updated.
+
+SQL> update employees set Employee_salary=Employee_salary*1.1
+  2  where (syadate-date_of_joining)>5);
+where (syadate-date_of_joining)>5)
+                                 *
+ERROR at line 2:
+ORA-00933: SQL command not properly ended
+
+
+SQL> update employees set Employee_salary=Employee_salary*1.1
+  2  where (date_of_joining-sysdate)>-5;
+
+0 rows updated.
+
+SQL> update employees set Employee_salary=Employee_salary*1.1
+  2  where (sysdate-date_of_joining) >5;
+
+7 rows updated.
+
+SQL> select *  from employees;
+
+EMPLOYEE_CODE EMPLOYEE_NAME   DATE_OF_J EMPLOYEE_SALARY GR
+------------- --------------- --------- --------------- --
+COL_NAME
+----------------------------------------
+          101 preetham        10-JAN-10           19800 A
+
+
+          102 Aakash          10-NOV-05           52800 C
+
+
+          103 Kishore         19-DEC-11           23100 B
+
+
+
+EMPLOYEE_CODE EMPLOYEE_NAME   DATE_OF_J EMPLOYEE_SALARY GR
+------------- --------------- --------- --------------- --
+COL_NAME
+----------------------------------------
+          104 Reena           23-JUN-06           46200 C
+
+
+          105 Kailash         05-FEB-04           50600 C
+
+
+          106 Sahana          18-NOV-03           57200 C
+
+
+
+EMPLOYEE_CODE EMPLOYEE_NAME   DATE_OF_J EMPLOYEE_SALARY GR
+------------- --------------- --------- --------------- --
+COL_NAME
+----------------------------------------
+          107 keerthana       25-JUL-06           29700 B
+
+
+
+7 rows selected.

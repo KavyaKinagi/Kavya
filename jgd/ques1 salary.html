@@ -1,0 +1,58 @@
+<html>
+<head>
+<title>Salary Details</title>
+
+<script>
+	function calc()
+	{
+		
+		var i = document.getElementById("gross").value;
+		var fn= document.getElementById("fname").value;
+		var ln=document.getElementById("lname").value;
+		var ti=document.getElementById("opt").value;
+		var x=(i/100);
+		if(i==null)
+			alert("Plz");
+		
+		else if(i<180000)
+			alert("No income tax applicable" + "Net Salary=" + i);
+			
+		else if(i>=180000 && i<=300000)
+			alert("Income tax is " + x*10 + "\nNet Salary=" + (i-x) + "\nName: "+ ti +" " + fn +" " +ln);
+		else if(i>300000 && i<=500000)
+			alert("Income tax is " +x*20 + "\nNet Salary=" + (i-x) + "\nName: " +ti + " "+ fn +" " +ln);
+		else if(i>500000)
+			alert("Income tax is " + x*30 + "\nNet Salary="+(i-x)  + "\nName: " + ti + " " + fn +" " +ln);
+	}
+
+
+</script
+
+</head>
+<body>
+
+<form method = "get" action="">
+<fieldset>
+
+<center><h1><b>Employee Details</b></h1></center><br><br>
+<table align="center" cellspacing="15">
+<tr>
+<td>Title</td>
+<td><select id="opt">
+<option>Mr.</option>
+<option>Mrs.</option>
+<option>Ms.</option>
+</select></td></tr>
+
+<tr><td>First Name: </td><td><input type="text" id="fname" maxlength="15" required/></td></tr>
+<tr><td>Last Name: </td><td><input type="text" id="lname" maxlength="15" required/></td></tr>
+<tr><td>Gross Salary: </td><td><input  type="number" id="gross" min="0" required/></td></tr>
+<tr><td>Address: </td><td><textarea cols="22" rows="5"></textarea></td></tr>
+
+
+</table>
+
+</form><br>
+<br>
+<center><input type="submit" value="Salary Slip" id="submit" onclick="calc()"></center>
+</fieldset>
